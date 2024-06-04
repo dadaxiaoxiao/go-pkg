@@ -7,6 +7,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/prometheus/client_golang v1.19.1
 	github.com/redis/go-redis/v9 v9.5.2
+	go.uber.org/atomic v1.11.0
 	go.uber.org/zap v1.27.0
 )
 
