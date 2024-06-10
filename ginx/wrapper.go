@@ -1,6 +1,7 @@
 package ginx
 
 import (
+	"github.com/dadaxiaoxiao/go-pkg/accesslog"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/prometheus/client_golang/prometheus"
