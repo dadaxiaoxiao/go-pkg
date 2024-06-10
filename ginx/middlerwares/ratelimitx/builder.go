@@ -2,7 +2,7 @@ package ratelimitx
 
 import (
 	"fmt"
-	"github.com/dadaxiaoxiao/go-pkg/internal/ratelimit"
+	"github.com/dadaxiaoxiao/go-pkg/ratelimit"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

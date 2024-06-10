@@ -10,6 +10,8 @@ import (
 //go:embed slide_window.lua
 var luaSlideWindow string
 
+type RedisSlideWindowLimiterOption func(r *RedisSlideWindowLimiter)
+
 type RedisSlideWindowLimiter struct {
 	cmd redis.Cmdable
 	// 窗口大小
@@ -20,11 +22,25 @@ type RedisSlideWindowLimiter struct {
 
 // NewRedisSlideWindowLimiter
 // 新增redis 滑动窗口
-func NewRedisSlideWindowLimiter(cmd redis.Cmdable, interval time.Duration, rate int) Limiter {
-	return &RedisSlideWindowLimiter{
-		cmd:      cmd,
-		interval: interval,
-		rate:     rate,
+func NewRedisSlideWindowLimiter(cmd redis.Cmdable, opts ...RedisSlideWindowLimiterOption) Limiter {
+	res := &RedisSlideWindowLimiter{
+		cmd: cmd,
+	}
+	for _, opt := range opts {
+		opt(res)
+	}
+	return res
+}
+
+func WithInterval(interval time.Duration) RedisSlideWindowLimiterOption {
+	return func(r *RedisSlideWindowLimiter) {
+		r.interval = interval
+	}
+}
+
+func WithRate(rate int) RedisSlideWindowLimiterOption {
+	return func(r *RedisSlideWindowLimiter) {
+		r.rate = rate
 	}
 }
 
