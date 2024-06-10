@@ -56,6 +56,8 @@ func (t *TokenBucketLimiter) Limit(ctx context.Context, key string) (bool, error
 	}
 }
 
+// Close 关闭限流
+// 遵循一个原则，谁开启，谁关闭
 func (l *TokenBucketLimiter) Close() error {
 	l.closeOnce.Do(func() {
 		close(l.closeCh)

@@ -1,4 +1,4 @@
-package logger
+package accesslog
 
 type Logger interface {
 	Debug(msg string, args ...Field)

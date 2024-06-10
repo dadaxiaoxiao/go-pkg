@@ -1,4 +1,4 @@
-package logger
+package accesslog
 
 import "go.uber.org/zap"
 

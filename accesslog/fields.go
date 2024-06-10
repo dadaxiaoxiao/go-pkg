@@ -1,4 +1,4 @@
-package logger
+package accesslog
 
 func String(key, val string) Field {
 	return Field{

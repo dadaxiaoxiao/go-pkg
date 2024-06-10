@@ -1,4 +1,4 @@
-package logger
+package accesslog
 
 type NopLogger struct {
 }

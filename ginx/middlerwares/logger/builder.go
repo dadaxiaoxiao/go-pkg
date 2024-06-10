@@ -95,6 +95,7 @@ func (b *Builder) Builder() gin.HandlerFunc {
 		}
 
 		if allowRespBody {
+			// response 回调
 			ctx.Writer = responseWriter{
 				ResponseWriter: ctx.Writer,
 				al:             accessLog,
