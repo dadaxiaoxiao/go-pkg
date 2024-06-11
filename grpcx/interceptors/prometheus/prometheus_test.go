@@ -14,6 +14,7 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"math/rand"
 	"net/http"
 	"testing"
 	"time"
@@ -56,7 +57,7 @@ func (s *InterceptorTestSuite) TestGrpcServer() {
 	svc := &Server{}
 	server := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
-			NewInterceptorBuilder("dadaxiaoxiao", "demo").BuildServer(),
+			NewInterceptorBuilder("qinyeyiyi", "demo").BuildServer(),
 		))
 	svc.Register(server)
 
@@ -82,7 +83,7 @@ func (s *InterceptorTestSuite) TestGrpcClient() {
 	assert.NoError(s.T(), err)
 
 	client := user.NewUserServiceClient(cc)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 300; i++ {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		resp, err := client.GetById(ctx, &user.GetByIdRequest{
 			Id: 1,
@@ -104,6 +105,7 @@ func (s *Server) Register(server *grpc.Server) {
 }
 
 func (s *Server) GetById(context.Context, *user.GetByIdRequest) (*user.GetByIdResponse, error) {
+	time.Sleep(time.Millisecond * time.Duration(rand.Int31n(50)))
 	return &user.GetByIdResponse{
 		User: &user.User{
 			Id:   1,

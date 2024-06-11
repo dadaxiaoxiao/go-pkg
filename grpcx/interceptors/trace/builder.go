@@ -14,7 +14,6 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// InterceptorBuilder 接入 trace
 type InterceptorBuilder struct {
 	interceptors.Builder
 	tracer trace.Tracer
