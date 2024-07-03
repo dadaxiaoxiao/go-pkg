@@ -2,8 +2,8 @@ package fixer
 
 import (
 	"context"
-	"github.com/dadaxiaoxiao/go-pkg/gormx/events"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator"
+	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

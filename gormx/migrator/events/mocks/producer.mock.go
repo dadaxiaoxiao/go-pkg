@@ -11,9 +11,9 @@ package evtmocks
 
 import (
 	context "context"
+	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	reflect "reflect"
 
-	events "github.com/dadaxiaoxiao/go-pkg/gormx/events"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -3,7 +3,7 @@ package validator
 import (
 	"context"
 	"github.com/dadaxiaoxiao/go-pkg/accesslog"
-	"github.com/dadaxiaoxiao/go-pkg/gormx/events"
+	events2 "github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	"gorm.io/gorm"
 	"time"
 )
@@ -16,7 +16,7 @@ type baseValidator struct {
 	direction string
 
 	l        accesslog.Logger
-	producer events.Producer
+	producer events2.Producer
 }
 
 // notify 通知kafka
@@ -25,7 +25,7 @@ func (v *baseValidator) notify(id int64, typ string) {
 	// 这里我们要单独控制超时时间
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	evt := events.InconsistentEvent{
+	evt := events2.InconsistentEvent{
 		Direction: v.direction,
 		ID:        id,
 		Type:      typ,

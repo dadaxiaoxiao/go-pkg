@@ -6,8 +6,8 @@ import (
 	"github.com/dadaxiaoxiao/go-pkg/accesslog"
 	"github.com/dadaxiaoxiao/go-pkg/ginx"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/connpool"
-	"github.com/dadaxiaoxiao/go-pkg/gormx/events"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator"
+	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator/validator"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -211,7 +211,7 @@ func (s *Scheduler[T]) StartIncrementValidator(ctx *gin.Context, req StartIncrRe
 	}, nil
 }
 
-// StopFullValidator 关闭增量校验
+// StopIncrementValidator 关闭增量校验
 func (s *Scheduler[T]) StopIncrementValidator(ctx *gin.Context) (ginx.Result, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()

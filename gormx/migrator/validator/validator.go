@@ -3,8 +3,8 @@ package validator
 import (
 	"context"
 	"github.com/dadaxiaoxiao/go-pkg/accesslog"
-	"github.com/dadaxiaoxiao/go-pkg/gormx/events"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator"
+	events2 "github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	"github.com/ecodeclub/ekit/slice"
 	"github.com/ecodeclub/ekit/syncx/atomicx"
 	"golang.org/x/sync/errgroup"
@@ -33,7 +33,7 @@ func NewValidator[T migrator.Entity](
 	base *gorm.DB,
 	target *gorm.DB,
 	l accesslog.Logger,
-	producer events.Producer,
+	producer events2.Producer,
 	direction string,
 	batchSize int) (*Validator[T], error) {
 
@@ -157,12 +157,12 @@ func (v *Validator[T]) validateBaseToTarget(ctx context.Context) {
 			case gorm.ErrRecordNotFound:
 				// target 里面少了这条数据
 				// 上报给 Kafka
-				v.notify(src.ID(), events.InconsistentEventTypeTargetMissing)
+				v.notify(src.ID(), events2.InconsistentEventTypeTargetMissing)
 			case nil:
 				if !src.CompareTo(dst) {
 					// 不相等
 					// 上报 kafka ，告知数据不一致
-					v.notify(src.ID(), events.InconsistentEventTypeNEQ)
+					v.notify(src.ID(), events2.InconsistentEventTypeNEQ)
 				}
 			default:
 				/*
@@ -274,6 +274,6 @@ func (v *Validator[T]) validateTargetToBase(ctx context.Context) {
 // notifyBaseMissing 通知 base 数据库数据缺失
 func (v *Validator[T]) notifyBaseMissing(ids []int64) {
 	for _, id := range ids {
-		v.notify(id, events.InconsistentEventTypeBaseMissing)
+		v.notify(id, events2.InconsistentEventTypeBaseMissing)
 	}
 }

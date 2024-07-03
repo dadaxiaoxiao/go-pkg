@@ -3,8 +3,8 @@ package validator
 import (
 	"context"
 	"github.com/dadaxiaoxiao/go-pkg/accesslog"
-	"github.com/dadaxiaoxiao/go-pkg/gormx/events"
 	"github.com/dadaxiaoxiao/go-pkg/gormx/migrator"
+	events2 "github.com/dadaxiaoxiao/go-pkg/gormx/migrator/events"
 	"gorm.io/gorm"
 	"time"
 )
@@ -18,7 +18,7 @@ func NewCanalIncrValidator[T migrator.Entity](
 	target *gorm.DB,
 	direction string,
 	l accesslog.Logger,
-	producer events.Producer,
+	producer events2.Producer,
 ) *CanalIncrValidator[T] {
 	return &CanalIncrValidator[T]{
 		baseValidator: baseValidator{
@@ -45,10 +45,10 @@ func (v *CanalIncrValidator[T]) Validate(ctx context.Context, id int64) error {
 		switch err1 {
 		case nil:
 			if !base.CompareTo(target) {
-				v.notify(id, events.InconsistentEventTypeNEQ)
+				v.notify(id, events2.InconsistentEventTypeNEQ)
 			}
 		case gorm.ErrRecordNotFound:
-			v.notify(id, events.InconsistentEventTypeTargetMissing)
+			v.notify(id, events2.InconsistentEventTypeTargetMissing)
 		default:
 			return err
 		}
@@ -59,7 +59,7 @@ func (v *CanalIncrValidator[T]) Validate(ctx context.Context, id int64) error {
 		err1 := v.target.WithContext(ctx).Where("id = ?", id).First(&target).Error
 		switch err1 {
 		case nil:
-			v.notify(id, events.InconsistentEventTypeBaseMissing)
+			v.notify(id, events2.InconsistentEventTypeBaseMissing)
 		case gorm.ErrRecordNotFound:
 		default:
 			return err
