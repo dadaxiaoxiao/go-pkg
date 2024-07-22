@@ -154,7 +154,7 @@ func (d *DoubleWritePool) QueryRowContext(ctx context.Context, query string, arg
 type DoubleWritePoolTx struct {
 	src     *sql.Tx
 	dst     *sql.Tx
-	pattern string
+	pattern string //标记位
 	l       accesslog.Logger
 }
 

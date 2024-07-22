@@ -13,6 +13,15 @@ import (
 
 const name = "custom_weight_round_robin"
 
+func init() {
+	balancer.Register(newWrrPickerBuilder())
+}
+
+// newBuilder
+func newWrrPickerBuilder() balancer.Builder {
+	return base.NewBalancerBuilder(name, &WrrPickerBuilder{}, base.Config{HealthCheck: true})
+}
+
 // WrrPickerBuilder 平滑加权轮询picker builder
 type WrrPickerBuilder struct {
 }
